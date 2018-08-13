@@ -1,0 +1,35 @@
+@import "pod-styles";
+@import 'app/components/global-sidebar/style.less';
+@import 'app/components/generic-modal/style.less';
+@import 'app/components/top-bar/style.less';
+
+body{
+    margin: 0;
+    background: #DAD5DD;
+    height:100vh;
+    overflow: hidden;
+
+    .main {
+        height: 100%;
+        display: flex;
+
+        .center-stage{
+            margin: 15px 15px 0px 15px;
+            width: 100%;
+        
+            .title {
+                font-size: 1.5em;
+            }
+            .add{
+                    right: 5px;
+                    font-size: 1.5em;
+                    position: absolute;
+                
+            }
+        }
+    }
+}
+
+body > .ember-view {
+    height:100%;
+}

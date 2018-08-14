@@ -1,2 +1,11 @@
 <span class='title'>Contacts</span>
-<span class='add' {{action 'addContact'}}>{{fa-icon "plus"}}</span>
+<span class='add' {{action 'addContact'}}><i class="fa fa-plus"></i></span>
+<div class='contacts'>
+    <div class='fixtable-container'>
+          {{fixtable-grid 
+            tableClass='table-hover'
+            columns=columnDefs 
+            content=contacts
+            }}
+    </div>
+</div>

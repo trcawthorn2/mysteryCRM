@@ -20,11 +20,24 @@ body{
             .title {
                 font-size: 1.5em;
             }
-            .add{
+            .add {
                     right: 5px;
                     font-size: 1.5em;
                     position: absolute;
+            }
+
+            .contacts{
+                width: 100%;
+                display: flex;           
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;     
                 
+                margin-top: 30px;
+
+                .fixtable-container{
+                    width: 80%;
+                }
             }
         }
     }
@@ -32,4 +45,20 @@ body{
 
 body > .ember-view {
     height:100%;
+}
+
+.fixtable{
+    min-height: 350px;
+    border-radius: 5px;
+    overflow: hidden;
+    border-style: solid !important;
+    border-width: 2px !important;
+    border-color: #128a84 !important;
+
+    .fixtable-header{
+        background:#128a84;
+    }
+    th > div > span {
+        color: #DAD5DD;
+    }
 }

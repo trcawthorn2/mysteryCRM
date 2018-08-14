@@ -21,5 +21,6 @@ module.exports = function(defaults) {
     },
   });
 
+  app.import('node_modules/fixtable/dist/fixtable.js');
   return app.toTree();
 };

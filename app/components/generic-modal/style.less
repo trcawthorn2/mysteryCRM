@@ -1,5 +1,4 @@
-.login-modal {
-    
+.generic-modal {
     .modal {
         z-index: 10;
         max-width: 450px;
@@ -14,9 +13,33 @@
         transform: translateX(-50%);
         transition: 1s;
         border-radius: 50px 20px;
+        padding-left: 50px;
 
         &.open {
             top: 150px;
+        }
+        .title{
+            padding: 10px 10px 10px 0px;
+            color: #4b0055;
+        }
+        .attribute{
+            margin-bottom: 10px;
+        }
+        .close {
+            float: right;
+            padding: 15px;
+        }
+        
+        .actions{
+            float: right;
+            margin-right: 50px;
+            margin-bottom: 15px;
+            
+            span{
+                background: #4b0055;
+                color: #dad5dd;
+                padding: 10px;
+            }
         }
     }
 }

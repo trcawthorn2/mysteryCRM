@@ -7,5 +7,5 @@ export default DS.Model.extend({
     phoneNumber: DS.attr('string'),
     address: DS.attr('string'),
     email: DS.attr('string'),
-    comapny: DS.attr('string')
+    company: DS.attr('string')
 });

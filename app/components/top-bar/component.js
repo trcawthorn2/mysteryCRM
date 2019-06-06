@@ -1,15 +1,15 @@
 import Component from '@ember/component';
+import Ember from 'ember';
 
 export default Component.extend({
     classNames: ['top-bar'],
     router: Ember.inject.service(),
-    openSettings: false,
     actions: {
         home: function(){
             this.get('router').transitionTo('index');
         },
         settings: function() {
-            this.toggleProperty('openSettings');
+            this.get('router').transitionTo('settings');
         }
     }
 });

@@ -4,6 +4,8 @@ import Ember from 'ember';
 export default Service.extend({
     ctiSettingsService: Ember.inject.service(),
     activityService: Ember.inject.service(),
+    router: Ember.inject.service(),
+
     embedDetailsWindow: Ember.computed('ctiSettingsService.settings', function(){
         return this.get('ctiSettingsService.settings.embeddedInteractionWindow');
     }),
@@ -15,7 +17,7 @@ export default Service.extend({
         if(!env){
             env = {};
         }
-        // return '';
+
         if(env.key == 'local'){
             return `https://apps.${region}/crm/index.html?crm=framework-local-secure&parentDomain=${domain}`;
         }else if(env.key == 'pef'){
@@ -53,6 +55,7 @@ export default Service.extend({
                 hideWebRTCPopUpOption: this.get('ctiSettingsService.settings.hideWebRTCPopUpOption'),
                 embeddedInteractionWindow: this.get('ctiSettingsService.settings.embeddedInteractionWindow')
             },
+            customInteractionAttributes: this.get('ctiSettingsService.screenPopAttributes'),
             name: this.get('ctiSettingsService.settings.frameworkName'),
             clientIds:{}
             
@@ -74,6 +77,11 @@ export default Service.extend({
         this.postMessageToCTI(payload);
     },
     isPhoneVisible:false,
+    phoneVisibleChanged: Ember.observer('isPhoneVisible', function(){
+        if(!this.get('isPhoneVisible')){
+            this.set('isDetailsWindowVisible', false);
+        }
+    }),
     init: function(){
         this._super(...arguments);
         window.addEventListener("message", (event) => {
@@ -81,7 +89,7 @@ export default Service.extend({
             if(message){
                 if(message.type == 'settingsRequest'){
                    this.postSettings();
-                }else if(message.type =='notificationSubscription' && message.data.category == "interactionWindow"){
+                }else if(message.type =='notificationSubscription' && message.data.category == "interactionWindow" && message.data.data.reason == 'focus'){
                     this.set('isDetailsWindowVisible', true);
                 }else if(message.type =='processCallLog'){
                     if(message.data.callLog.id){
@@ -92,6 +100,21 @@ export default Service.extend({
                         this.get('activityService').logActivity(message.data.callLog, message.data.interaction).then((activity)=>{
                             this.postMessageToCTI({type:'processCallLogCompleted', interaction:message.data.interaction, callLogId:activity.id});
                         });
+                    }
+                }else if(message.type =='screenPop'){
+                    this.set('isPhoneVisible', true);
+                    if(message.data.interaction.attributes){
+                        let screenPopAttributes = this.get('ctiSettingsService.screenPopAttributes');
+                        let attributeMapping = {};
+                        screenPopAttributes.forEach(element => {
+                            attributeMapping[element] = message.data.interaction.attributes[element];
+                        });
+                        
+                        if(attributeMapping.mystery_type == 'user'){
+                            this.get('router').transitionTo('users.view', attributeMapping.mystery_id );
+                        }else if(attributeMapping.mystery_type == 'issue'){
+                            this.get('router').transitionTo('issues.view', attributeMapping.mystery_id );
+                        }
                     }
                 }
             }

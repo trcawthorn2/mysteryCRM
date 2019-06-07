@@ -3,6 +3,7 @@ import Service from '@ember/service';
 const localStorageKey = "MysteryCRMSettings";
 export default Service.extend({
     settings: {sso:{},theme:{}, clientIds: { purecloudEnv:'mypurecloud.com'}},
+    screenPopAttributes: ['mystery_type', 'mystery_id'],
     init: function(){
         this._super(...arguments);
         this.refreshSettings();
